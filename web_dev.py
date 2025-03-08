@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 
-# Custom CSS styling
+
 st.markdown("""
 <style>
     @keyframes gradientBG {
@@ -43,7 +43,7 @@ st.markdown("""
         margin-bottom: 2rem !important;
     }
 
-    /* Chat Interface Styles */
+  
     .chat-btn {
         position: fixed;
         bottom: 30px;
@@ -130,7 +130,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state
 if 'current_day' not in st.session_state:
     st.session_state.update({
         'current_day': 1,
@@ -142,7 +141,7 @@ if 'current_day' not in st.session_state:
     })
 
 
-# Question bank
+
 QUESTIONS = {
     1: {
         "technology": "HTML",
@@ -655,13 +654,12 @@ def chat_interface():
     def chat_key(key_suffix):
         return f"chat_{hash('chat_interface')}_{key_suffix}"
 
-    # Initialize chat state
+  
     if 'chat_visible' not in st.session_state:
         st.session_state.chat_visible = False
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
 
-    # Chat toggle button
     st.markdown("""
     <style>
         .chat-btn {
@@ -713,7 +711,7 @@ def chat_interface():
                 ">
             """, unsafe_allow_html=True)
             
-            # Display messages
+        
             for msg in st.session_state.chat_history:
                 if msg['type'] == 'user':
                     st.markdown(f'<div class="message user-message">👤 {msg["content"]}</div>', 
@@ -743,7 +741,7 @@ def chat_interface():
                         })
                         st.rerun()
 
-# Add JavaScript to handle close button
+
 st.markdown("""
 <script>
 document.addEventListener('closeChat', function() {
@@ -769,7 +767,7 @@ def show_completion_screen():
     </style>
     """, unsafe_allow_html=True)
 
-    # Restart button with session state reset
+
     if st.button("Restart Challenge", key="restart_btn"):
         st.session_state.update({
             'current_day': 1,
@@ -798,15 +796,14 @@ def show_completion_screen():
 def main():
     st.markdown('<p class="header-text">🚀 7-Days Web Dev Challenge</p>', unsafe_allow_html=True)
     
-    # Chat interface
+  
     chat_interface()
     
-    # Completion screen
+ 
     if st.session_state.current_day > 7:
         show_completion_screen()
         st.stop()
-    
-    # Progress tracking
+ 
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f'<div class="score-card">Current Day: {st.session_state.current_day}/7</div>', 
@@ -815,7 +812,7 @@ def main():
         st.markdown(f'<div class="score-card">Total Score: {st.session_state.score}/70</div>', 
                     unsafe_allow_html=True)
     
-    # Daily questions
+
     try:
         day_data = QUESTIONS[st.session_state.current_day]
     except KeyError:
@@ -824,11 +821,11 @@ def main():
     
     st.header(f"Day {st.session_state.current_day}: {day_data['technology']}")
     
-    # Display questions
+ 
     for q_num, question in enumerate(day_data["questions"]):
         show_question(question, q_num)
     
-    # Answer submission
+
     if st.session_state.current_day not in st.session_state.answers:
         if st.button("Submit Answers"):
             day_score = 0
@@ -846,7 +843,7 @@ def main():
             st.session_state.show_explanations = not st.session_state.show_explanations
             st.rerun()
     
-    # Navigation
+
     col1, col2 = st.columns(2)
     if st.session_state.current_day > 1:
         with col1:
